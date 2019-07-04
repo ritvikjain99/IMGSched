@@ -1,0 +1,7 @@
+{% extends "Meetapp/layout.html" %}
+
+
+{% block logout %}
+  <h2>Logged out</h2>
+  <a href="{% url 'login' %}"> Login Again</a>
+{% endblock %}  

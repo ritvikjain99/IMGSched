@@ -1,0 +1,20 @@
+{% extends "Meetapp/layout.html" %}
+
+
+{% block login %}
+	{% if request.user.is_authenticated %}
+		<p class="display-4">Hello, you are logged in as {{ request.user.username  }} ...</p>
+		<a class="lead" href="{% url 'logout' %}">Log out</a>
+	{% else %}
+		<p>You are logged out</p>
+		<h2>Login</h2>
+		<form method="POST" class="form">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="btn btn-primary">Login</button>
+		</form>
+		<br>
+		<p><strong>-- OR --</strong></p>
+		<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+	{% endif %}
+{% endblock %}  

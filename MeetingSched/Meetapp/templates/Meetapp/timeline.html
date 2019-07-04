@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../../../../frontend/semantic/dist/semantic.min.css">
+  <title>MeetingSched</title>
+</head>
+<body>
+  
+  <div id="root" >  
+    <h1> HI, {{request.user.username | upper}}</h1>
+    <form method="POST" action="{% url 'meetings' %}">
+      {% csrf_token %}
+      {{ meetingForm.as_p }}
+      <button type="submit">Create a meeting</button>
+    </form>    
+    
+    {% for meeting in meetings%}
+    <li>created by {{meeting.admin}} is to be held on {{meeting.meeting_time}}  </li>
+    {% endfor %}
+  </div>
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="../../../../frontend/semantic/dist/semantic.min.js"></script>
+
+</html>
+
