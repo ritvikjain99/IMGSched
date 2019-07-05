@@ -67,6 +67,19 @@ export default class Service{
         })
         .then(response => response.data);
     }
+    createUser(user){
+        var { first_name, last_name, username, password, is_staff, email } = user
+        const url = `${API_URL}/api/users/`;
+        return axios.post(url, {
+            'first_name': first_name,
+            'last_name': last_name,
+            'username': username,
+            'email': email,
+            'is_staff': is_staff,
+            'password': password,
+            })
+            .then(response => response.data);
+    }
     updateMeeting(meeting, access){
         const url = `${API_URL}/api/meetings/${meeting.meeting_id}`;
         return axios.get(url, {

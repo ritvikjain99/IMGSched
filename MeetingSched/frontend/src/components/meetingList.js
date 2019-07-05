@@ -55,11 +55,11 @@ export default class MeetingList extends Component {
     render() {
     var meetingFeed = (meeting) =>   <Feed size='small'>
                                         <Feed.Event>
-                                        <Feed.Label icon={'https://react.semantic-ui.com/images/avatar/small/laura.jpg'} />
+                                        <Feed.Label image={'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
                                         <Feed.Content>
                                             <Feed.Date content={meeting.meeting_time} />
                                             <Feed.Summary content={meeting.name.toUpperCase() + " created a meeting."} />
-                                            <Feed.Extra content={meeting.meeting_description} />
+                                            {/* <Feed.Extra content={meeting.meeting_description} /> */}
                                         </Feed.Content>
                                         </Feed.Event>
                                      </Feed>

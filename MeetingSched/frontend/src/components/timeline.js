@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Image, Segment } from 'semantic-ui-react';
 import Navbar from './navbar';
 import MeetingList from './meetingList';
-import MeetingForm from './Forms';
+import MeetingForm from './MeetingForms';
 import { Redirect } from 'react-router-dom';
 
 class Timeline extends Component{

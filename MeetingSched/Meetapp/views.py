@@ -2,11 +2,12 @@ from django.contrib.auth.models import User
 from .models import Comment, Meeting
 from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer, MeetingSerializer, CommentSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -33,7 +34,12 @@ class UserViewSet(viewsets.ModelViewSet):
             filter['pk'] = self.kwargs['pk']
         else:
             filter['username'] = self.kwargs['pk']
-        return get_object_or_404(queryset, **filter)        
+        return get_object_or_404(queryset, **filter)
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny(), ]        
+        return super(UserViewSet, self).get_permissions()       
 
 
 class MeetingViewSet(viewsets.ModelViewSet):
