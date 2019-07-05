@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Container, Form, Message, List, Button } from 'semantic-ui-react';
+import { Container, Form, Message, List, Button, Divider } from 'semantic-ui-react';
 import Service from '../Services';
-
+import GoogleSignup from './GoogleSignup';
 const service = new Service();
 
 export default class Signup extends Component {
@@ -12,15 +12,21 @@ export default class Signup extends Component {
             success: false,
             errormsg: [],
         }
+        this.failure = this.failure.bind(this)
+        this.success = this.success.bind(this)
     }
 
-    listError = (errorObject) => {
+    listError = (errorObject=undefined) => {
         var errormsg = []
-        for(var property in errorObject){
-            if(errorObject.hasOwnProperty(property))
-                errormsg.push(errorObject[property])
-        }
-        this.setState({ errormsg: errormsg})   
+        if(errorObject !== undefined){
+            for(var property in errorObject){
+                if(errorObject.hasOwnProperty(property))
+                    errormsg.push(errorObject[property])
+            }
+        } 
+        else
+            errormsg.push("Something went wrong.")  
+        this.setState({ errormsg: errormsg})
     } 
 
     handleChange = (event, props) =>{
@@ -43,14 +49,24 @@ export default class Signup extends Component {
         //console.log(this.state)
         service.createUser(data)
         .then(response => {
-            this.setState({error: false, success: true, errormsg: []})
+            this.success()
             //console.log(response)
         })
         .catch(error => {
-            this.setState({error: true, success: false})
-            this.listError(error.response.data)
+            this.failure(error)
             //console.log(error.response.data)
         })
+    }
+
+
+    success(){
+        this.setState({error: false, success: true, errormsg: []})
+    }
+
+
+    failure(error){
+        this.setState({error: true, success: false})
+        this.listError(error.response.data)
     }
 
 
@@ -85,7 +101,7 @@ export default class Signup extends Component {
                             <Message
                             success
                             header="Success!"
-                            content="Created meeting."
+                            content="Created User."
                             />
                             <Message
                             error
@@ -97,6 +113,13 @@ export default class Signup extends Component {
                                 <Button content='Login' icon='sign in alternate' href='/' primary/>
                             </Form.Group>
                         </Form>
+                        <Divider horizontal content='OR'/>
+                        <GoogleSignup 
+                            success={this.success} 
+                            failure={this.failure} 
+                            content="Signup with Google" 
+                            listError={this.listError}
+                        />
                     </Container>
                 </Container>
         )

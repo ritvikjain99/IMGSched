@@ -37,12 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
     'rest_framework',
-    'rest_framework.authtoken',
     'channels',
     'Meetapp',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -136,11 +133,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'
 )
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'timeline'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='723797070419-c8fp9n8bt14segt706adkjv5u1mr8ae0.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='8pLdfkPmgVJ0bFlkprwVZeB-'
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
