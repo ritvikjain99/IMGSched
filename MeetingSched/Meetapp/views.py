@@ -47,7 +47,7 @@ class MeetingViewSet(viewsets.ModelViewSet):
     A viewset for viewing and editing user instances.
     """
     serializer_class = MeetingSerializer
-    queryset = Meeting.objects.all()
+    queryset = Meeting.objects.order_by('meeting_time')
     permission_classes = (IsAuthenticated,)
 
 
@@ -56,8 +56,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     A viewset for viewing and editing user instances.
     """
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
-    permission_classes = (IsAuthenticated,)
+    queryset = Comment.objects.order_by('time')
+    # permission_classes = (IsAuthenticated,)
     
     def retrieve(self, request, pk=None):
         queryset = Comment.objects.filter(meeting_id=pk)

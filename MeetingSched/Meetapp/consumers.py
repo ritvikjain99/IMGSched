@@ -1,30 +1,47 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+import json, requests
+
+
+API_URL = "http://localhost:8000/api/comment/" 
 
 class CommentConsumer(AsyncWebsocketConsumer):
-    groups = ["broadcast"]
-
     async def connect(self):
-        # Called on connection.
-        # To accept the connection call:
-        await self.accept()
-        # Or accept the connection and specify a chosen subprotocol.
-        # A list of subprotocols specified by the connecting client
-        # will be available in self.scope['subprotocols']
-        await self.accept("subprotocol")
-        # To reject the connection, call:
-        await self.close()
+        self.group_name = 'comments'
 
-    async def receive(self, text_data=None, bytes_data=None):
-        # Called with either text_data or bytes_data for each frame
-        # You can call:
-        await self.send(text_data="Hello world!")
-        # Or, to send a binary frame:
-        await self.send(bytes_data="Hello world!")
-        # Want to force-close the connection? Call:
-        await self.close()
-        # Or add a custom WebSocket error code!
-        await self.close(code=4123)
+        await self.channel_layer.group_add(
+            self.group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
 
     async def disconnect(self, close_code):
-        # Called when the socket closes
-        pass
+        self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
+
+
+    async def receive(self, text_data):
+        comment = json.loads(text_data)
+        
+        # response = requests.post(url=API_URL, data={**json_data})
+        print('*'*50)
+        print(comment)
+        print('*'*50)
+        await self.channel_layer.group_send(
+            self.group_name,
+            {
+            'type': 'user_comment',
+            'comment': comment,
+            }
+        )
+
+
+    async def user_comment(self, event):
+        comment = event['comment']
+        
+        await self.send(text_data = json.dumps({
+            'comment': comment
+        }))

@@ -25,7 +25,8 @@ class MeetingSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=100, source='author.username', read_only=True)
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['name', 'text', 'meeting', 'time', 'author', 'id']

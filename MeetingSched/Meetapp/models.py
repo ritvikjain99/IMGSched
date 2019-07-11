@@ -5,7 +5,7 @@ class Meeting(models.Model):
 	meeting_id = models.AutoField(primary_key=True)
 	meeting_time = models.DateTimeField()
 	isPrivate = models.BooleanField()
-	admin = models.ForeignKey(User, on_delete=models.PROTECT, related_name='meeting')
+	admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meeting')
 	invited = models.ManyToManyField(User, related_name='invited')
 	meeting_description = models.CharField(max_length=100)
 
@@ -13,8 +13,8 @@ class Meeting(models.Model):
 		return self.admin.username
 
 class Comment(models.Model):
-	author = models.ForeignKey(User, related_name="comments", on_delete=models.PROTECT)
-	meeting = models.ForeignKey(Meeting, related_name="comments", on_delete=models.PROTECT)
+	author = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
+	meeting = models.ForeignKey(Meeting, related_name="comments", on_delete=models.CASCADE)
 	text = models.TextField()
 	time = models.DateTimeField()
 

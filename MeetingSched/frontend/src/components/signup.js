@@ -29,6 +29,7 @@ export default class Signup extends Component {
         this.setState({ errormsg: errormsg})
     } 
 
+
     handleChange = (event, props) =>{
         var { value, name, checked } = props
         if(checked == undefined)
@@ -37,6 +38,7 @@ export default class Signup extends Component {
             this.setState({[name]: checked})
     }
 
+    
     handleSubmit = (event) => {
         var { first_name, last_name, is_staff, username, password, email } = this.state
         var data = {}

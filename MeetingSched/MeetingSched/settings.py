@@ -67,8 +67,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -128,26 +126,18 @@ STATIC_URL = '/static/'
 
 #added by Ritvik
 
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend'
-)
-
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
-)
-
-ASGI_APPLICATION = "Meetapp.routing.application"
+ASGI_APPLICATION = 'MeetingSched.routing.application'
 CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.RedisChannelLayer',
-            'CONFIG': {
-                'hosts': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-                'capacity': 100,
-            },
-        }
-
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }
+
+
+ASGI_APPLICATION = "MeetingSched.routing.application"
 
 #React development server
 
