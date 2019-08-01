@@ -3,9 +3,8 @@ import React, {Component} from 'react';
 import Home from './components/home';
 import Timeline from './components/timeline';
 import Signup from './components/signup';
-import GoogleSignup from './components/GoogleSignup';
 
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 class  App  extends  Component {

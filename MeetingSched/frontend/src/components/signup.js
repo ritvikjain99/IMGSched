@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Form, Message, List, Button, Divider } from 'semantic-ui-react';
+import { Container, Form, Message, List, Button } from 'semantic-ui-react';
 import Service from '../Services';
-import GoogleSignup from './GoogleSignup';
 const service = new Service();
 
 export default class Signup extends Component {
@@ -12,27 +11,11 @@ export default class Signup extends Component {
             success: false,
             errormsg: [],
         }
-        this.failure = this.failure.bind(this)
-        this.success = this.success.bind(this)
     }
-
-    listError = (errorObject=undefined) => {
-        var errormsg = []
-        if(errorObject !== undefined){
-            for(var property in errorObject){
-                if(errorObject.hasOwnProperty(property))
-                    errormsg.push(errorObject[property])
-            }
-        } 
-        else
-            errormsg.push("Something went wrong.")  
-        this.setState({ errormsg: errormsg})
-    } 
-
 
     handleChange = (event, props) =>{
         var { value, name, checked } = props
-        if(checked == undefined)
+        if(checked === undefined)
             this.setState({[name]: value})
         else
             this.setState({[name]: checked})
@@ -60,16 +43,6 @@ export default class Signup extends Component {
         })
     }
 
-
-    success(){
-        this.setState({error: false, success: true, errormsg: []})
-    }
-
-
-    failure(error){
-        this.setState({error: true, success: false})
-        this.listError(error.response.data)
-    }
 
 
     render() {
@@ -99,7 +72,6 @@ export default class Signup extends Component {
                             content={warning}
                             />
                             <Form.Checkbox label='Administrator' name='is_staff' onChange={this.handleChange}/>
-                            
                             <Message
                             success
                             header="Success!"
@@ -115,13 +87,6 @@ export default class Signup extends Component {
                                 <Button content='Login' icon='sign in alternate' href='/' primary/>
                             </Form.Group>
                         </Form>
-                        <Divider horizontal content='OR'/>
-                        <GoogleSignup 
-                            success={this.success} 
-                            failure={this.failure} 
-                            content="Signup with Google" 
-                            listError={this.listError}
-                        />
                     </Container>
                 </Container>
         )

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Grid, Image, Segment } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 import Navbar from './navbar';
 import MeetingList from './meetingList';
 import MeetingForm from './MeetingForms';
 import { Redirect } from 'react-router-dom';
+
+
 
 class Timeline extends Component{
   constructor(props){
       super(props)
       this.state = {
           activeItem: 'home',
-          user: this.props.location.state, // Object User with id and refresh token as field
+          user: JSON.parse(localStorage.getItem("user")), // Object User with id and refresh token as field
       }
       this.renderElement = this.renderElement.bind(this);
       this.handleClick = this.handleClick.bind(this);
@@ -20,8 +22,10 @@ class Timeline extends Component{
   renderElement(user){
     if(this.state.activeItem === 'home')
         return <MeetingList user={user} />;
-    if(this.state.activeItem === 'logout')
+    if(this.state.activeItem === 'logout'){
+        localStorage.removeItem("user")
         return <Redirect to='/' />;
+    }
     if(this.state.activeItem === 'create')
         return <MeetingForm user={this.state.user} />; 
   }

@@ -3,9 +3,6 @@ const API_URL = 'http://localhost:8000';
 
 export default class Service{
 
-    constructor(){}
-
-
     getMeetings(access) {
         const url = `${API_URL}/api/meetings/`;
         return axios.get(url, {
@@ -43,8 +40,8 @@ export default class Service{
         .then(response => response.data);
     }
     deleteMeeting(meeting_id, access){
-        const url = `${API_URL}/api/meeting/${meeting_id}`;
-        return axios.get(url, {
+        const url = `${API_URL}/api/meetings/${meeting_id}`;
+        return axios.delete(url, {
             headers: {
                 'Authorization': 'Bearer ' + access
             }

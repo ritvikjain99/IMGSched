@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import Service from '../Services';
-import { Button, Comment, Form, Header, Container } from 'semantic-ui-react'
+import { Comment, Header, Input, Icon } from 'semantic-ui-react'
 
 
-const service = new Service();
 export default class FeedComment extends Component {
     constructor(props){
         super(props)
@@ -20,20 +18,22 @@ export default class FeedComment extends Component {
         this.setState({comment: value})
     }
     
-    
+
     onComment(){
-        this.props.onComment(this.state.comment, this.props.meeting_id)
+        var {comment} = this.state
+        var {meeting_id} = this.props
+        this.props.onComment(comment, meeting_id)
+        comment = ''
+        this.setState({comment:comment})
     }
 
     render(){
         var {comments} = this.state
         return(
-            <Container>
-                <Comment.Group size='tiny'>
-                    <Header size='small' dividing>
-                    Comments
+                <Comment.Group size='tiny' >
+                    <Header size='small'>
+                       <Icon name='comments'/>Comments
                     </Header>
-
                     {comments.map(comment => {
                         var  time  = comment.time.slice(0, -1).split("T")
                         return (<Comment key={comment.id}>
@@ -52,12 +52,8 @@ export default class FeedComment extends Component {
                     }
                     )}
 
-                    <Form reply>
-                    <Form.TextArea onChange={this.handleChange}/>
-                    <Button content='Add Reply' labelPosition='left' icon='edit' primary size='mini' onClick={this.onComment}/>
-                    </Form>
+                    <Input fluid action={{icon:'send', onClick:this.onComment}} onChange={this.handleChange} placeholder='Write something...' value={this.state.comment}/>
                 </Comment.Group>
-            </Container>
         );
     }
 }

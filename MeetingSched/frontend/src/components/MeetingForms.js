@@ -21,6 +21,7 @@ export default class MeetingForm extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleDropdown = this.handleDropdown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.user = JSON.parse(localStorage.getItem("user"))
     }
 
 
@@ -30,14 +31,15 @@ export default class MeetingForm extends Component {
 
     handleSubmit(event){
         var data = {}
+        console.log(this.user)
         var { meeting_description, isPrivate, invited, time, date } = this.state
         data['meeting_description'] = meeting_description
-        data['admin'] = this.props.user.id
+        data['admin'] = this.user.id
         data['isPrivate'] = (isPrivate ? "True":"False")
         data['invited'] = invited
-        data['meeting_time'] = date+"T"+time+"Z"
-        RefreshedToken(this.props.user.refresh).then(response => {
-            service.createMeeting(data, response.data.access).then(response => {
+        data['meeting_time'] = date+"T"+time
+        RefreshedToken(this.user.refresh).then(access => {
+            service.createMeeting(data, access).then(response => {
                 console.log(response.data)
                 this.setState({error: false, success: true})
             })
@@ -59,9 +61,10 @@ export default class MeetingForm extends Component {
 
 
     updateUsers(){
-        RefreshedToken(this.props.user.refresh)
+        RefreshedToken(this.user.refresh)
         .then(response => {
-            service.getUsers(response.data.access)
+            // console.log(response)
+            service.getUsers(response)
             .then(response => {
                 this.setState({stateOptions: response.map(user => {return {key: user.id, value: user.id, text: user.username}})})
             })
@@ -84,7 +87,7 @@ export default class MeetingForm extends Component {
                 <Form.Field required>
                     <Input label='Time' placeholder='HH:MM:SS' name='time' onChange={this.handleChange}/>
                 </Form.Field>
-                <Form.Field required>
+                <Form.Field>
                     <Checkbox label='Private' name='isPrivate' onChange={this.handleChange}/>
                 </Form.Field>
                 <Form.Field required>

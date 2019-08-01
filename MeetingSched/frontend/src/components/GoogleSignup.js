@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import GoogleLogin from 'react-google-login';
-import Service from '../Services';
 
-const service = new Service();
 
 export default class GoogleSignup extends Component {
     constructor(props){
@@ -12,11 +10,11 @@ export default class GoogleSignup extends Component {
     }
 
     onFailure = (response) => {
-      this.props.failure()
+      this.props.failure(response)
     }
 
     onSuccess = (response) => {
-      console.table(response.profileObj)
+      console.log(response)
       var {givenName, familyName, email, googleId} = response.profileObj;
       var data = {};
       data['username'] = givenName
@@ -25,15 +23,7 @@ export default class GoogleSignup extends Component {
       data['password'] = googleId
       data['email'] = email
       data['is_staff'] = 'false'
-      service.createUser(data)
-      .then(response => {
-        this.props.success()
-        console.table(response)
-      })
-      .catch(error => {
-        this.props.failure(error)
-        console.table(response)
-      })
+      this.props.success(data)
     }
 
     render(){
